@@ -11,7 +11,8 @@ import {
   Blog,
   Juicebox,
   Slice,
-  Notion
+  Notion,
+  Website
 } from "@components/icons/Social"
 
 type Props = {
@@ -21,14 +22,12 @@ type Props = {
 }
 
 export const accounts = {
-  slice: "https://slice.so",
-  twitter: "https://twitter.com/slice__so",
-  discord: "https://discord.gg/CdyHUzdZks",
-  github: "https://github.com/slice-so/merge-to-earn"
+  website: "https://tea.xyz",
+  twitter: "https://x.com/teaprotocol",
+  discord: "https://discord.gg/tea-906608167901876256",
+  github: "https://github.com/sumitvekariya/bounteas",
   // notion: "https://slicedao.notion.site",
-  // blog: "/blog",
-  // juicebox: "https://juicebox.money/#/p/slice"
-  // reddit: "https://reddit.com/r/slice",
+  blog: "https://tea.xyz/blog"
 }
 
 const Social: FC<Props> = ({ wrapperClassName, accounts }, props) => {
@@ -45,7 +44,7 @@ const Social: FC<Props> = ({ wrapperClassName, accounts }, props) => {
     instagram: { color: "hover:text-pink-500", element: Instagram },
     reddit: { color: "hover:text-red-500", element: Reddit },
     linkedin: { color: "hover:text-blue-700", element: Linkedin },
-    slice: { color: "hover:text-blue-600", element: Slice },
+    website: { color: "hover:text-blue-600", element: Website },
     mail: { color: "hover:text-gray-500", element: Mail }
   }
 

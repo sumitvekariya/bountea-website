@@ -46,7 +46,7 @@ const Navbar = () => {
                 <Chevron className="w-4 text-black -rotate-90 nightwind-prevent" />
               </div>
             )}
-            {showDropdown && (
+            {showDropdown && session && (
               <div className="absolute bottom-0 right-0 group-hover:block">
                 <DropdownMenu />
               </div>

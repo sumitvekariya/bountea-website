@@ -47,7 +47,7 @@ const FormGithub = ({ repo, setRepo, repoList }: Props) => {
       <Button
         type="button"
         label="Install BounTEA"
-        href="https://github.com/apps/merge-to-earn/installations/new/"
+        href="https://github.com/apps/bounteas/installations/new/"
         external
         onClick={() => saEvent("install_main")}
       />
@@ -60,7 +60,7 @@ const FormGithub = ({ repo, setRepo, repoList }: Props) => {
         labelAction={
           <a
             className="w-full text-sm text-right text-blue-600 hover:underline"
-            href="https://github.com/apps/merge-to-earn/installations/new/"
+            href="https://github.com/apps/bounteas/installations/new/"
             target="_blank"
             rel="noreferrer"
             onClick={() => saEvent("install_more")}
