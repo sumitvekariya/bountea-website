@@ -1,125 +1,223 @@
 ![BounTEA banner](/public/twitter_card.jpg)
 
-**Automate rewarding contributors with a slice of ownership over a project and its earnings, when pull requests are merged.**
+# BounTEA - The Bounty System for Open Source Development
 
-## Install
+**Post cryptocurrency bounties on GitHub issues, fund them on TEA Network, and contributors claim rewards using GPG-based Account Abstraction.**
 
-1. [Install BounTEA](https://github.com/apps/merge-to-earn/installations/new/) Github app on one or more repositories
-2. Initialize the app for each repo on [mte.slice.so](https://mte.slice.so) by following the [setup process](#setup-process)
+BounTEA integrates cryptocurrency bounties directly into the GitHub workflow, leveraging the unique capabilities of the TEA Network and its GPG Precompile for seamless rewards distribution.
 
-### Setup process
+## ✨ Key Features
 
-BounTEA relies on:
+- **Simple Bounty Creation**: Post bounties with a single comment: `/bountea post <amount> <TOKEN>`
+- **GPG-Based Claims**: Contributors use their existing GPG keys - no wallet setup required
+- **Smart Contract Escrow**: Secure fund holding on TEA Network until legitimate claims
+- **Zero-Knowledge Proofs**: Secure claim verification without revealing private keys
+- **Automated Workflow**: Seamless integration with GitHub PR merge process
 
-- A [Slicer](https://slice.so), to split the project's ownership and earnings among multiple contributors;
-- A [Gnosis Safe](https://gnosis-safe.io/app), typically owned by the project's maintainers, to execute rewards distributions.
+## 🚀 Quick Start
 
-The setup process is carried out on [mte.slice.so](https://mte.slice.so) by someone who is both owner of the repo and the safe related to the project. It consists in:
+### For Repository Owners
 
-1. Delegating BounTEA to propose transactions on the appointed safe;
-2. Creating a slicer to represent the project.
+1. **Install BounTEA GitHub App**
+   ```
+   Visit: https://github.com/apps/bounteas/installations/new/
+   Select repositories to enable bounties
+   ```
 
-## How it works
+2. **Post a Bounty**
+   ```
+   Comment on any GitHub issue:
+   /bountea post 100 TEA "Fix the critical bug in authentication module"
+   ```
 
-When a pull request is opened:
+3. **Fund the Bounty**
+   ```
+   Send tokens to the BounTEA Escrow contract address provided
+   Bounty becomes active once funding is confirmed
+   ```
 
-- A comment is automatically posted with instructions on how to request a slice reward;
-- The BounTEA bot keeps updating the scheduled slice distribution in the PR discussion, as new requests are made;
-- The PR owner can edit the scheduled distribution anytime, for example as new commits are made or after discussing with the reviewer.
+### For Contributors
 
-When a PR is merged:
+1. **Find Bountied Issues**
+   - Look for issues with funded BounTEA bounties
+   - Check bounty amount and requirements
 
-- BounTEA proposes on the project's Gnosis Safe a transaction to mint the agreed amount of slices;
-- Once maintainers sign and submit the transaction, the contributors receive the reward. As a result they will receive a proportional share of earnings related to the project's Slicer from that moment onward, directly on [slice.so](https://slice.so).
+2. **Contribute with GPG-Signed Commits**
+   ```bash
+   # Ensure your commits are GPG signed
+   git commit -S -m "Fix authentication bug"
+   
+   # Link PR to issue
+   # In PR description: "Fixes #123"
+   ```
 
-> See it in action on this [Demo PR](https://github.com/slice-so/merge-to-earn/pull/4)
+3. **Claim Your Bounty** (after PR merge)
+   ```bash
+   # Use ZK Pass tool to generate proof
+   zkpass generate --gpg-key <your-gpg-id> --commit <commit-hash>
+   
+   # Use GPG Wallet to claim bounty
+   gpg-wallet claim-bounty --bounty-id <id> --proof <zk-proof>
+   ```
 
-<details>
-<summary>BounTEA first comment and instructions (click to expand)</summary>
-<img src='/public/main.png'/>
-</details>
+## 🔧 How It Works
 
-<details>
-<summary>Example scenario (click to expand)</summary>
+### 1. Bounty Lifecycle
 
-- A project starts with 1000 slices to each of its 5 creators, for their initial work. The creators share equal ownership over the project's slicer, and those who act as maintainers are also owners of the Gnosis Safe which approves new slice distributions.
+```mermaid
+graph LR
+    A[Post Bounty] --> B[Fund Escrow]
+    B --> C[Contributor Works]
+    C --> D[PR Merged]
+    D --> E[Claim Notification]
+    E --> F[ZK Proof + Claim]
+    F --> G[Funds Released]
+```
 
-  > Any payment sent to the slicer at this stage will be split equally between creators (20% each).
+### 2. Technical Architecture
 
-- A new contributor opens a PR and asks for 500 slices for its work. Once the PR is merged and the transaction is submitted on the safe, slices are minted to its wallet.
-  > Any payment sent to the slicer at this stage will be split: ~9% to the contributor, ~18% to each project creator
+**TEA Network Integration:**
+- **GPG Precompile**: Validates GPG signatures and manages Account Abstraction
+- **Smart Contract Escrow**: Holds funds securely until legitimate claims
+- **Token Allowlist**: Centrally managed list of approved tokens
 
-As a result, **contributors are retributed proportionally to their work and receive earnings based on when their PRs were merged.**
+**Security Layers:**
+- **GPG Signature Verification**: Cryptographic proof of code authorship
+- **Zero-Knowledge Proofs**: Prove GPG ownership without exposing private keys
+- **Smart Contract Validation**: On-chain verification of claims
 
-Everything is handled transparently on-chain, while Github settings and permissions can be used to customize what happens between opening and merging a PR.
+### 3. Example Workflow
 
-</details>
+```typescript
+// 1. Repository owner posts bounty
+// Comment: /bountea post 500 TEA "Implement OAuth integration"
 
-## Notes
+// 2. BounTEA responds with funding instructions
+// Amount: 500 TEA
+// Escrow: 0x742d35Cc6637C0532c2e...
+// Bounty ID: #2024-001
 
-- Each PR has a pinned MTE comment showing the scheduled slice distribution.
-- Contributors can manage their slices and withdraw any earnings on [slice.so](https://slice.so). Slices are ERC1155 tokens so they can also be managed on the owner's ETH wallet and can be freely transferred (learn more on [slice.so](https://slice.so)).
-- If a PRs is merged while previous mint proposals haven&apos;t been executed, **a new transaction will be proposed which includes all those not yet executed queued on the same nonce**. It is thus possible to combine multiple proposals in a single transaction, by executing the last transaction proposed by MTE on a safe for each nonce.
-- When a slicer is created on [mte.slice.so](https://mte.slice.so), the appointed Gnosis Safe becomes its controller and is able to **mint or burn new slices** or sell products on the slicer's decentralized store.
-- The max total number of slices that can be created for a project is 4B. See below the suggestion on [how to quantify slices as reward](#how-many-slices-to-give-when-merging-prs).
+// 3. Contributor submits GPG-signed PR
+git commit -S -m "feat: implement OAuth integration
 
-## Suggestions for maintainers
+Fixes #42"
 
-<details>
-<summary>Define in advance how slice rewards are calculated</summary>
+// 4. After merge, contributor claims with ZK proof
+claimBounty(
+  bountyId: "2024-001",
+  commitHash: "abc123...",
+  zkProofData: "proof_generated_by_zkpass_tool"
+)
+```
 
-- We suggest rewarding 1 slice for 1$ value of work, or something like that. This greatly facilitates estimating how many slices to give to initial and future contributors.
+## 🛠 Requirements
 
-</details>
+### For Contributors
+- **GPG Key**: Configured for signing commits
+- **ZK Pass Tool**: For generating zero-knowledge proofs
+- **GPG Wallet**: For interacting with TEA Network
 
-<details>
-<summary>Add reward tags to issues and PRs</summary>
+### For Repository Owners
+- **GitHub Repository**: With BounTEA app installed
+- **TEA Network Wallet**: For funding bounties
+- **Approved Tokens**: From the TEA Network allowlist
 
-- To incentivise and prioritise contributions, you can add tags to issues and PRs to signal the potential reward for contributors.
+## 📋 Supported Tokens
 
-</details>
+BounTEA uses a curated allowlist of tokens on TEA Network:
+- **TEA** - Native network token
+- **USDC** - Stablecoin for consistent bounty values
+- **WETH** - Wrapped Ethereum
+- *Additional tokens managed by TEA team*
 
-## Gas cost considerations
+## 🔒 Security Features
 
-Merge to earn requires executing transaction on the Ethereum blockchain in the following instances:
+- **Multi-layered Verification**: GPG signatures + ZK proofs + smart contract validation
+- **Account Abstraction**: GPG keys become crypto wallets through TEA Network precompile
+- **Escrow Protection**: Funds locked until legitimate claims verified
+- **Audit Trail**: All transactions recorded on TEA Network blockchain
 
-- Setting up a project: The [setup process](#setup-process) involves creating a slicer for a project. Costs around **400k gas**, around $4-8\*
-- Executing a safe transaction after merging PRs: Gas costs are variable and generally amount to **100k gas for transaction**, around $1-2\* (note that multiple PRs can be batched into a single transaction, see 3rd bullet point in [notes](#notes))
+## 💰 Cost Structure
 
-> \*Based on an ETH price of $1000 and a gas price of 10-20 gwei
+- **Platform Fees**: None - BounTEA is completely free to use
+- **Network Fees**: Only standard TEA Network gas costs
+  - Funding bounties: ~$0.01-0.05
+  - Claiming bounties: ~$0.01-0.05
+  - Fund transfers: ~$0.01-0.05
 
-## Addressing security concerns
+## 🚦 Getting Started
 
-Merge to earn projects can be considered safe against attackers attempting to steal earnings by compromising Github accounts or ETH wallets.
+### Prerequisites
 
-In fact, compromising a project is not worth for an attacker as it:
+1. **Install GPG** (if not already installed)
+   ```bash
+   # macOS
+   brew install gnupg
+   
+   # Ubuntu/Debian
+   sudo apt install gnupg
+   ```
 
-- Requires satisfying hard requirements;
-- Yields low rewards;
-- Can be easily and quickly mitigated by project owners.
+2. **Configure Git GPG Signing**
+   ```bash
+   git config --global user.signingkey <your-gpg-key-id>
+   git config --global commit.gpgsign true
+   ```
 
-#### Github account compromised
+3. **Install BounTEA Tools**
+   - [ZK Pass Tool](https://github.com/tea-xyz/zkpass-tool)
+   - [GPG Wallet](https://github.com/tea-xyz/gpg-wallet)
 
-Let's consider the case where an attacker gains access to a maintainer's Github account. In this case, **they would be able to merge fake PRs and propose malicious transactions to the project's multisig** to reward themselves with slices.
+### First Bounty
 
-However, **nothing would happen until the quorum of multisig owners execute the malicious transaction**. If maintainers are aware an attack has happened, or just check the accuracy of the transactions to be executed (as it's always advised to) this scenario is highly unlikely to happen.
+1. **Repository Owner**: Install BounTEA app on your repo
+2. **Post Bounty**: Comment `/bountea post 100 TEA` on an issue  
+3. **Fund Bounty**: Send 100 TEA to provided escrow address
+4. **Contributors**: Submit GPG-signed PRs linked to the issue
+5. **Claim Rewards**: Use ZK Pass + GPG Wallet after PR merge
 
-But even if maintainers mistakenly execute a malicious transaction, **they still have plenty of time to get the situation under control by reverting the undesired outcome**. In this case the attacker only gets part of the earnings that were received by the project between the moment their transaction was executed and when it was reverted, which in most cases should be a negligible amount.
+## 🎯 Use Cases
 
-#### Gnosis Safe compromised
+- **Bug Bounties**: Reward security researchers and bug hunters
+- **Feature Development**: Incentivize specific feature implementations  
+- **Documentation**: Pay for comprehensive docs and tutorials
+- **Code Reviews**: Reward thorough peer reviews
+- **Maintenance**: Incentivize ongoing project maintenance
 
-A more complex attack would involve the attacker obtaining the private keys of enough multisig owners' wallets, allowing them to **autonomously execute transactions on the project's Gnosis Safe**. This is extremely hard to achieve, especially for multisig with a high quorum, but let's consider this scenario anyway.
+## 🤝 Contributing to BounTEA
 
-Due to how slicers are designed, **an attacker wouldn't still be able to get the project earnings received until that point, but only what was received after he gained control** and executed a malicious transaction. The Slice protocol has been designed to safeguard against this kind of attacks.
+This project uses BounTEA to reward contributors! Check out our [issues](https://github.com/sarkazein/bountea-website/issues) for funded bounties.
 
-On the contrary, to mitigate such an attack, **project owners just need to reinitialize MTE for their repository with a new slicer and multisig**, distribute ownership to contributors as it was before the attack, and redirect any future earnings to the new slicer. This is technically trivial and can be done in minutes, rendering an attacker powerless.
+### Development Setup
 
-## Learn more
+```bash
+# Clone repository
+git clone https://github.com/sarkazein/bountea-website.git
+cd bountea-website
 
-- [Merge to earn - website](https://mte.slice.so)
-- [Slice protocol](https://slice.so)
-- [Support (Discord)](https://discord.gg/c7puDHjgMU)
+# Install dependencies
+pnpm install
 
-## Contributing
+# Start development server
+pnpm dev
+```
 
-This project uses Merge to earn to reward contributors with a piece of the [Merge to earn slicer](https://slice.so/slicer/23) and its earnings, when pull requests are merged.
+## 📚 Learn More
+
+- **TEA Network**: [tea.xyz](https://tea.xyz)
+- **GPG Signing Guide**: [GitHub Docs](https://docs.github.com/en/authentication/managing-commit-signature-verification)
+- **Account Abstraction**: [EIP-4337](https://eips.ethereum.org/EIPS/eip-4337)
+
+## 🆘 Support
+
+- **Documentation**: [Coming Soon]
+- **Discord**: [Tea Community](https://discord.gg/tea)
+- **Issues**: [GitHub Issues](https://github.com/sarkazein/bountea-website/issues)
+
+## 📄 License
+
+This project is licensed under the GPL-3.0-or-later License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+**Built with ❤️ for the open source community by the TEA team**
