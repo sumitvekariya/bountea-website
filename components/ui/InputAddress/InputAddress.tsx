@@ -70,7 +70,7 @@ const InputAddress: React.FC<Props> = (props) => {
           className={`${
             resolvedAddress === "Invalid ENS name"
               ? "text-red-500"
-              : "text-blue-600 dark:text-sky-300"
+              : "text-tea-600 dark:text-tea-300"
           } absolute text-xs opacity-80 font-black left-0 bottom-[-20px]
           }`}
         >

@@ -123,7 +123,7 @@ const Input: React.FC<Props> = (props) => {
               error
                 ? "bg-red-500"
                 : !disabled && !loading
-                ? "bg-blue-300 text-black peer-focus:bg-sky-600 dark:peer-focus:bg-sky-300"
+                ? "bg-tea-300 text-black peer-focus:bg-tea-600 dark:peer-focus:bg-tea-300"
                 : ""
             } ${
               prefixAction && !disabled && !loading

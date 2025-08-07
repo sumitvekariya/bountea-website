@@ -13,8 +13,8 @@ const InputCheckbox: React.FC<Props> = (props) => {
   const { checked, onChange, className, label, labelClassName, id, ...rest } =
     props
 
-  const rootClassName = `w-4 h-4 rounded bg-white text-blue-600 dark:text-blue-600 shadow-sm focus:ring focus:ring-offset-0 focus:ring-blue-200 dark:focus:ring-blue-700 focus:!ring-opacity-50 ${
-    checked ? "bg-blue-600 dark:bg-blue-600" : "border-gray-300"
+  const rootClassName = `w-4 h-4 rounded bg-white text-tea-600 dark:text-tea-600 shadow-sm focus:ring focus:ring-offset-0 focus:ring-tea-200 dark:focus:ring-tea-700 focus:!ring-opacity-50 ${
+    checked ? "bg-tea-600 dark:bg-tea-600" : "border-gray-300"
   }`
 
   return (

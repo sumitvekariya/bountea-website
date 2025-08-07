@@ -21,7 +21,7 @@ type Props = {
 }
 
 export const accounts = {
-  website: "https://tea.xyz",
+  // website: "https://tea.xyz",
   twitter: "https://x.com/teaprotocol",
   discord: "https://discord.gg/tea-906608167901876256",
   github: "https://github.com/sumitvekariya/bounteas",
@@ -33,7 +33,7 @@ const Social: FC<Props> = ({ wrapperClassName, accounts }, props) => {
 
   const components = {
     twitter: { color: "hover:text-blue-500", element: Twitter },
-    discord: { color: "hover:text-indigo-500", element: Discord },
+    discord: { color: "hover:text-tea-500", element: Discord },
     github: { color: "hover:text-purple-500", element: Github },
     notion: { color: "hover:text-gray-500", element: Notion },
     blog: { color: "hover:text-green-500", element: Blog },

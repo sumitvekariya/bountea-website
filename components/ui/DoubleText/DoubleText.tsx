@@ -49,7 +49,7 @@ const DoubleText: FC<Props> = ({
         }
         ${size || "text-2xl md:text-3xl"} ${
           color ||
-          "text-transparent bg-gradient-to-br bg-clip-text to-blue-300 from-sky-500"
+          "text-transparent bg-gradient-to-br bg-clip-text to-tea-300 from-tea-500"
         }`}
         style={{ marginTop: "0.1em", marginBottom: 0 }}
       >

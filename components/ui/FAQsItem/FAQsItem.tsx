@@ -21,7 +21,7 @@ const FAQsItem = ({
   return (
     <li>
       <div
-        className={`flex items-center pt-5 border-b-2 border-blue-600 cursor-pointer group ${wrapperClassName}`}
+        className={`flex items-center pt-5 border-b-2 border-tea-600 cursor-pointer group ${wrapperClassName}`}
         onClick={() => {
           saEvent(`faq_${id}`)
           setShowAnswer((showAnswer) => !showAnswer)
@@ -42,7 +42,7 @@ const FAQsItem = ({
         </span>
       </div>
       {showAnswer && (
-        <div className="px-3 py-2 border-b border-l border-r border-blue-600 rounded-b-sm xs:pl-8 xs:pr-4">
+        <div className="px-3 py-2 border-b border-l border-r border-tea-600 rounded-b-sm xs:pl-8 xs:pr-4">
           {typeof answer == "string" ? <p className="">{answer}</p> : answer}
         </div>
       )}

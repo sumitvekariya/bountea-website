@@ -39,7 +39,7 @@ const Main = () => {
       )}
 
       {repo && !isUnsetRepo && (
-        <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+        <div className="p-6 bg-tea-50 dark:bg-gray-800 border border-tea-200 dark:border-tea-800 rounded-lg">
           <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
             Repository Selected: {repo.repoId}
           </h3>
@@ -47,7 +47,7 @@ const Main = () => {
             TEA Network integration and bounty management features will be available here soon.
           </p>
           <div className="text-center">
-            <p className="text-sm text-blue-600 dark:text-blue-400">
+            <p className="text-sm text-tea-600 dark:text-tea-400">
               🚀 Coming Soon: GPG-based Account Abstraction & Bounty Claims
             </p>
           </div>

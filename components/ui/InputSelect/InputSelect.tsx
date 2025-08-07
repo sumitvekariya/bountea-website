@@ -62,7 +62,7 @@ const InputSelect = ({
         ))}
       </select>
       {subText && (
-        <p className="w-full mt-2 -mb-2 text-xs font-black text-left text-blue-600 dark:text-sky-300 opacity-80">
+        <p className="w-full mt-2 -mb-2 text-xs font-black text-left text-tea-600 dark:text-tea-300 opacity-80">
           {subText}
         </p>
       )}

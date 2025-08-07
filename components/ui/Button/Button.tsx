@@ -19,7 +19,7 @@ interface ButtonProps {
 const Button: FC<ButtonProps> = (props) => {
   const {
     className = "overflow-hidden font-medium rounded-sm",
-    color = "text-white nightwind-prevent bg-blue-600 hover:bg-blue-700 focus:bg-blue-700",
+    color = "text-white nightwind-prevent bg-tea-600 hover:bg-tea-700 focus:bg-tea-700",
     type,
     label,
     href,
