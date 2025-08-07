@@ -70,7 +70,7 @@ export const SETUP = (params: any) => {
               <p className="pb-6 text-sm xs:px-10">
                 Check out the{" "}
                 <a
-                  href={accounts.github + "#merge-to-earn-app"}
+                  href={accounts.github + "#bountea-app"}
                   target="_blank"
                   rel="noreferrer"
                   className="highlight"

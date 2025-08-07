@@ -12,8 +12,8 @@ export default async function onComment(payload: IssueCommentEvent) {
   if (text.includes(requiredText)) {
     const connection: Connection = await getConnection(payload.repository.id)
     // TODO: Update for TEA Network bounty system  
-    const bountyId = (connection as any).bountyId || (connection as any).slicerId || 1
-    const walletAddress = (connection as any).walletAddress || (connection as any).safeAddress || "0x"
+    const bountyId = (connection as any).bountyId || 1
+    const walletAddress = (connection as any).walletAddress || "0x"
 
     const splitText = text.split("-")
     let botMessage: string
