@@ -56,18 +56,6 @@ const Main = () => {
     </div>
   ) : (
     <div className="text-center space-y-6">
-      <div className="space-y-4">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-          BounTEA
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400">
-          Decentralized Bounty Management on TEA Network
-        </p>
-        <p className="text-lg text-gray-500 dark:text-gray-500 max-w-md mx-auto">
-          Connect your GitHub account to start managing bounties with GPG-based Account Abstraction
-        </p>
-      </div>
-      
       <Button
         label={
           <span className="flex items-center gap-3">

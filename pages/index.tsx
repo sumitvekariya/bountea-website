@@ -56,7 +56,7 @@ export default function Home() {
                 >
                   BounTEA
                 </a>{" "}
-                is a GitHub app that integrates cryptocurrency bounties directly into your open-source development workflow. Post bounties on GitHub issues with a simple comment, fund them on the TEA Network, and contributors can claim rewards using their GPG keys through Account Abstraction.
+                is a GitHub app that integrates bounties directly into your open-source development workflow. Post bounties on GitHub issues with a simple comment, fund them on the TEA Network, and contributors can claim rewards using their GPG keys through Account Abstraction.
               </p>
               <p>
                 Install BounTEA on your repositories to start rewarding contributors with crypto bounties backed by smart contracts on the TEA Network.

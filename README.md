@@ -2,9 +2,9 @@
 
 # BounTEA - The Bounty System for Open Source Development
 
-**Post cryptocurrency bounties on GitHub issues, fund them on TEA Network, and contributors claim rewards using GPG-based Account Abstraction.**
+**Post bounties on GitHub issues, fund them on TEA Network, and contributors claim rewards using GPG-based Account Abstraction.**
 
-BounTEA integrates cryptocurrency bounties directly into the GitHub workflow, leveraging the unique capabilities of the TEA Network and its GPG Precompile for seamless rewards distribution.
+BounTEA integrates bounties directly into the GitHub workflow, leveraging the unique capabilities of the TEA Network and its GPG Precompile for seamless rewards distribution.
 
 ## ✨ Key Features
 

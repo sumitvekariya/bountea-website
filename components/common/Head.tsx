@@ -8,7 +8,7 @@ export const defaultTitle = "BounTEA"
 export const longTitle =
   "BounTEA – The bounty system for open source development"
 export const defaultDescription =
-  "Post cryptocurrency bounties on GitHub issues, fund them on TEA Network, and contributors claim rewards using GPG-based Account Abstraction."
+  "Post bounties on GitHub issues, fund them on TEA Network, and contributors claim rewards using GPG-based Account Abstraction."
 export const domain = process.env.NEXT_PUBLIC_APP_URL
 const twitterAccount = accounts.twitter.split("twitter.com/").pop()
 

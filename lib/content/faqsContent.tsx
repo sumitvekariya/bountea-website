@@ -6,7 +6,7 @@ export const faqsMain = [
     answer: (
       <>
         <p>
-          BounTEA integrates cryptocurrency bounties directly into the GitHub workflow using smart contracts on the TEA Network and GPG-based Account Abstraction.
+          BounTEA integrates bounties directly into the GitHub workflow using smart contracts on the TEA Network and GPG-based Account Abstraction.
         </p>
         <p>The bounty lifecycle works as follows:</p>
         <ol>

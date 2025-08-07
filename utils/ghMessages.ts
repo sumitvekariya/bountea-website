@@ -21,9 +21,9 @@ export function onPrOpenedMessage(
   const today = new Date()
   return `### 👋 Gm @${author}
 
-  This repository uses [BounTEA](https://github.com/sumitvekariya/bountea-website) to reward contributors with cryptocurrency bounties via TEA Network's GPG-based Account Abstraction.
+  This repository uses [BounTEA](https://github.com/sumitvekariya/bountea-website) to reward contributors with bounties via TEA Network's GPG-based Account Abstraction.
   
-  When merging a pull request, contributors can **receive an agreed bounty amount in supported cryptocurrencies directly to their GPG-derived wallet address**. 
+  When merging a pull request, contributors can **receive an agreed bounty amount in supported tokens directly to their GPG-derived wallet address**. 
   
   Funds are managed through TEA Network's secure escrow system and can be claimed using your GPG key for Account Abstraction.
 
