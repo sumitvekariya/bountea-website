@@ -9,18 +9,18 @@ export type View = {
 type ViewNames = "" | "SETUP"
 
 export const SETUP = (params: any) => {
-  const { uploadStep, setModalView, slicerId } = params
+  const { uploadStep, setModalView, bountyId } = params
 
   let uploadState: string
   switch (uploadStep) {
     case 1:
-      uploadState = "Sign message on your wallet to delegate Safe ..."
+      uploadState = "Connecting to TEA Network ..."
       break
     case 2:
-      uploadState = "Creating Slicer ..."
+      uploadState = "Setting up bounty system ..."
       break
     case 3:
-      uploadState = "Setting up repo ..."
+      uploadState = "Configuring repository ..."
       break
     case 4:
       uploadState = "Something went wrong"
@@ -32,33 +32,23 @@ export const SETUP = (params: any) => {
   return (
     <div className="text-center">
       <div className="pb-10 text-center">
-        <DoubleText inactive logoText="Initializing MTE" />
+        <DoubleText inactive logoText="Initializing BounTEA" />
       </div>
       <div className="grid items-center grid-cols-6 gap-2 px-4">
         <LoadingStep
           initCondition={uploadStep < 2}
           uploadState={uploadState}
-          endState={uploadStep != 4 ? "Safe delegated" : "Reverted"}
+          endState={uploadStep != 4 ? "TEA Network connected" : "Reverted"}
         />
         <LoadingStep
           nullCondition={uploadStep < 2}
           initCondition={uploadStep < 3}
           uploadState={uploadState}
-          waitingState="Slicer creation"
+          waitingState="Bounty system setup"
           endState={
             uploadStep != 4 ? (
               <>
-                Created{" "}
-                <a
-                  href={`https://${
-                    process.env.NEXT_PUBLIC_ENV === "goerli" ? "testnet." : ""
-                  }slice.so/slicer/${slicerId}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="highlight"
-                >
-                  Slicer #{slicerId}
-                </a>
+                Bounty system #{bountyId} configured
               </>
             ) : (
               "Reverted"
@@ -69,8 +59,8 @@ export const SETUP = (params: any) => {
           nullCondition={uploadStep < 3}
           initCondition={uploadStep < 4}
           uploadState={uploadState}
-          waitingState="Set up repo"
-          endState={uploadStep != 4 ? "Your repo is set! 🎉" : "Reverted"}
+          waitingState="Repository setup"
+          endState={uploadStep != 4 ? "Repository connected" : "Reverted"}
         />
       </div>
       <div className="pt-8">

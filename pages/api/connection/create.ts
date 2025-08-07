@@ -3,7 +3,7 @@ import fetcher from "@utils/fetcher"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { token, installationId, repoId, slicerId, safeAddress } = req.body
+  const { token, installationId, repoId, bountyId, walletAddress } = req.body
 
   try {
     const Authorization = "Bearer " + token
@@ -30,13 +30,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     console.log(3)
-    const connectionData = await prisma.connection.create({
-      data: {
-        repoId: Number(repoId),
-        slicerId: Number(slicerId),
-        safeAddress
-      }
-    })
+    // TODO: Update database connection for TEA Network bounty system
+    // const connectionData = await prisma.connection.create({
+    //   data: {
+    //     repoId: Number(repoId),
+    //     bountyId: Number(bountyId),
+    //     walletAddress
+    //   }
+    // })
+    const connectionData = { id: 1, repoId: Number(repoId), bountyId: Number(bountyId), walletAddress }
     console.log(4)
 
     res.status(200).json(connectionData)

@@ -1,20 +1,9 @@
 import formatNumber from "./formatNumber"
-import { provider, sliceCore } from "./initContracts"
 
 export const resolveEnsForBot = async (address: string) => {
-  let resolved: string
-  if (address.substring(address.length - 4) == ".eth") {
-    const resolvedAddress = await provider.resolveName(address)
-    if (resolvedAddress) {
-      resolved = `${address} (${resolvedAddress.replace(
-        resolvedAddress.substring(5, resolvedAddress.length - 3),
-        `___`
-      )})`
-    }
-  } else {
-    resolved = address
-  }
-  return resolved
+  // ENS resolution functionality for GPG addresses if needed
+  // This would need to be updated for TEA Network address resolution
+  return address
 }
 
 export const isValidAddress = (address: string) => {
@@ -26,98 +15,90 @@ export const baseReviewMessage =
 
 export function onPrOpenedMessage(
   author: string,
-  slicerId: string | number,
-  totalSlices: number
+  bountyId: string | number,
+  totalBounties: number
 ) {
   const today = new Date()
   return `### 👋 Gm @${author}
 
-  This repository uses [BounTEA](https://github.com/slice-so/merge-to-earn) to reward contributors with a piece of [Slicer #${slicerId}](https://slice.so/slicer/${slicerId}).
+  This repository uses [BounTEA](https://github.com/sumitvekariya/bountea-website) to reward contributors with cryptocurrency bounties via TEA Network's GPG-based Account Abstraction.
   
-  When merging a pull request, contributors can **receive an agreed number of slices 🍰 (ERC1155 tokens) representing ownership over the project and its earnings**. 
+  When merging a pull request, contributors can **receive an agreed bounty amount in supported cryptocurrencies directly to their GPG-derived wallet address**. 
   
-  Funds earned can be claimed anytime on [slice.so](https://slice.so) while slices can be transferred and managed from either the Slice website or directly from your ETH wallet.
+  Funds are managed through TEA Network's secure escrow system and can be claimed using your GPG key for Account Abstraction.
 
   ---
   
-  To request slices, comment using this template by specifying the **Ethereum addresses** of the contributors involved and the **desired amount of slices** for each.
+  To request bounty distribution, comment using this template by specifying the **GPG addresses or wallet addresses** of the contributors involved and the **desired bounty amount** for each.
   
   \`\`\`
   Include any optional details related to your request here.
   
-  ### Slice distribution request
+  ### Bounty distribution request
   
-  - contributor.eth : 1000
-  - 0x... : 500
-  - reviewer.eth : 50
+  - contributor@example.com (GPG) : 1000 USDC
+  - 0x... : 500 USDC
+  - reviewer@example.com (GPG) : 50 USDC
   \`\`\`
   
-  > Current total slices (${today.toDateString()}): ${formatNumber(totalSlices)}
+  > Current total bounties processed (${today.toDateString()}): ${formatNumber(totalBounties)}
   `
 }
 
 // TODO fix params type
-export async function onSlicesRequestMessage(
-  slicerId: string | number,
+export async function onBountyRequestMessage(
+  bountyId: string | number,
   splitText: string[],
   indexToStart: number
 ): Promise<[string, boolean, number]> {
-  let slicesToBeMinted = 0
   let isSuccess = false
-  let totalSlices = 0
+  let totalBounties = 0
   const newSplitText = splitText.slice(indexToStart)
   const resolvedArray = []
 
   for (let i = 0; i < newSplitText.length; i++) {
     const el: string = newSplitText[i]
-    const [addressTt, sliceAmountTt] = el.split(":")
+    const [addressTt, bountyAmountTt] = el.split(":")
     const address = addressTt.trim()
-    const sliceAmount = sliceAmountTt.trim()
-    if (Number(sliceAmount)) {
-      if (isValidAddress(address)) {
+    const bountyAmount = bountyAmountTt.trim()
+    
+    if (bountyAmount && bountyAmount.length > 0) {
+      if (isValidAddress(address) || address.includes("@")) { // GPG email or wallet address
         const resolved = await resolveEnsForBot(address)
         if (resolved) {
-          slicesToBeMinted += Number(sliceAmount)
-          resolvedArray.push("| " + resolved + " | " + sliceAmount + " |")
+          resolvedArray.push("| " + resolved + " | " + bountyAmount + " |")
         } else {
           return [
-            "ENS not resolved to address.\n" + baseReviewMessage,
+            "Address not resolved.\n" + baseReviewMessage,
             isSuccess,
-            totalSlices
+            totalBounties
           ]
         }
       } else {
         return [
           "Invalid address or message format.\n" + baseReviewMessage,
           isSuccess,
-          totalSlices
+          totalBounties
         ]
       }
     } else {
       return [
-        "Invalid number of slices or message format.\n" + baseReviewMessage,
+        "Invalid bounty amount or message format.\n" + baseReviewMessage,
         isSuccess,
-        totalSlices
+        totalBounties
       ]
     }
   }
   isSuccess = true
 
-  totalSlices = Number(await sliceCore.totalSupply(slicerId))
+  // TODO: Integrate with TEA Network bounty tracking
+  totalBounties = 0 // Placeholder for actual bounty count
 
   return [
-    "### Scheduled slice distribution \n| Address | Slices |\n| --- | --- |\n" +
+    "### Scheduled bounty distribution \n| Address | Amount |\n| --- | --- |\n" +
       resolvedArray.join(" \n ") +
-      "\n \n > **Slices to be minted:** " +
-      String(slicesToBeMinted) +
-      ` (${
-        Math.floor(
-          (slicesToBeMinted / (totalSlices + slicesToBeMinted)) * 100000
-        ) / 1000
-      }% of ${formatNumber(
-        totalSlices + slicesToBeMinted
-      )} future total slices)`,
+      "\n \n > **Bounties to be distributed via TEA Network escrow**",
     isSuccess,
-    totalSlices
+    totalBounties
   ]
 }

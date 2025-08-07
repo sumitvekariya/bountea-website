@@ -10,7 +10,6 @@ import {
   Discord,
   Blog,
   Juicebox,
-  Slice,
   Notion,
   Website
 } from "@components/icons/Social"
@@ -26,7 +25,6 @@ export const accounts = {
   twitter: "https://x.com/teaprotocol",
   discord: "https://discord.gg/tea-906608167901876256",
   github: "https://github.com/sumitvekariya/bounteas",
-  // notion: "https://slicedao.notion.site",
   blog: "https://tea.xyz/blog"
 }
 

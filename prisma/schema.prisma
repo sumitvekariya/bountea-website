@@ -13,8 +13,8 @@ generator client {
 model Connection {
   id            Int      @default(autoincrement()) @id
   repoId        Int      @unique
-  slicerId      Int     
-  safeAddress   String
+  bountyId      Int     
+  walletAddress String
 
   @@index([repoId], name:"repoId")
 }

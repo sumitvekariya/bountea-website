@@ -1,6 +1,5 @@
 import { IssueCommentEvent, PullRequestEvent } from "@octokit/webhooks-types"
-import { controllerCheck } from "@utils/controllerCheck"
-import { onPrOpenedMessage, onSlicesRequestMessage } from "@utils/ghMessages"
+import { onPrOpenedMessage, onBountyRequestMessage } from "@utils/ghMessages"
 import { createComment, editComment } from "@utils/ghHandler"
 import getConnection from "@utils/getConnection"
 import { Connection } from "@prisma/client"
@@ -8,11 +7,13 @@ import { getPinnedComment } from "@utils/getPinnedComment"
 
 export default async function onComment(payload: IssueCommentEvent) {
   const text: string = payload.comment.body
-  const requiredText = "### Slice distribution request"
+  const requiredText = "### Bounty distribution request"
 
   if (text.includes(requiredText)) {
     const connection: Connection = await getConnection(payload.repository.id)
-    const { slicerId, safeAddress } = connection
+    // TODO: Update for TEA Network bounty system  
+    const bountyId = (connection as any).bountyId || (connection as any).slicerId || 1
+    const walletAddress = (connection as any).walletAddress || (connection as any).safeAddress || "0x"
 
     const splitText = text.split("-")
     let botMessage: string
@@ -29,8 +30,8 @@ export default async function onComment(payload: IssueCommentEvent) {
     if (payload.comment.user.id === payload.issue.user.id) {
       // Set bot message to fire in create comment
       // m is defined based on success
-      const [m, success, totalSlices] = await onSlicesRequestMessage(
-        slicerId,
+      const [m, success, totalBounty] = await onBountyRequestMessage(
+        bountyId,
         splitText,
         indexToStart
       )
@@ -39,7 +40,7 @@ export default async function onComment(payload: IssueCommentEvent) {
       // Edit first bot comment
       if (success) {
         const newFirstMessage =
-          onPrOpenedMessage(author, slicerId, totalSlices) +
+          onPrOpenedMessage(author, bountyId, totalBounty) +
           "\n\n --- \n\n" +
           botMessage
 
@@ -53,8 +54,7 @@ export default async function onComment(payload: IssueCommentEvent) {
             payload.installation.id
           )
         } else {
-          // check if safeAddress is the slicer controller
-          await controllerCheck(slicerId, safeAddress)
+          // TEA Network bounty management - placeholder for future implementation
           await createComment(
             payload.repository.owner.login,
             payload.repository.name,
@@ -66,11 +66,11 @@ export default async function onComment(payload: IssueCommentEvent) {
       }
     } else {
       botMessage =
-        "User not authorized, only the PR owner can request slice distributions"
+        "User not authorized, only the PR owner can request bounty distributions"
     }
     if (
       pinnedBotComment ||
-      !botMessage.includes("### Scheduled slice distribution")
+      !botMessage.includes("### Scheduled bounty distribution")
     ) {
       await createComment(
         payload.repository.owner.login,

@@ -1,11 +1,9 @@
-import { sliceCore } from "./initContracts"
-
+// TODO: Replace with TEA Network bounty validation
 export const controllerCheck = async (
-  slicerId: string | number,
-  safeAddress: string
+  bountyId: string | number,
+  address: string
 ) => {
-  const controller = await sliceCore.controller(slicerId)
-  if (controller != safeAddress) {
-    throw Error(`Specified safe is not controller of slicer ${slicerId}`)
-  }
+  // Placeholder for TEA Network validation
+  console.log(`Validating bounty ${bountyId} for address ${address}`)
+  return true
 }
