@@ -1,0 +1,16 @@
+{
+  "env": {
+    "NEXTAUTH_URL": "https://bountea.vercel.app",
+    "NEXT_PUBLIC_APP_URL": "https://bountea.vercel.app"
+  },
+  "build": {
+    "env": {
+      "PRISMA_GENERATE_DATAPROXY": "true"
+    }
+  },
+  "functions": {
+    "pages/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  }
+}
