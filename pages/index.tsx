@@ -20,9 +20,9 @@ export default function Home() {
           url: domain,
           images: [
             {
-              url: `${domain}/og_image.png`,
-              width: 1000,
-              height: 1000,
+              url: `${domain}/twitter_card.png`,
+              width: 1600,
+              height: 900,
               alt: `${defaultTitle} cover image`
             }
           ]
