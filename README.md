@@ -1,4 +1,4 @@
-<!-- ![BounTEA banner](/public/twitter_card.jpg) -->
+![BounTEA banner](/public/twitter_card.png)
 
 # BounTEA - The Bounty System for Open Source Development
 
